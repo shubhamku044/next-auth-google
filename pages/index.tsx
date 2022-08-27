@@ -1,86 +1,61 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useSession, signIn, signOut } from 'next-auth/react'
 
 const Home: NextPage = () => {
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+	const { data: session } = useSession()
 
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
+	return (
+		<div className="flex min-h-screen flex-col items-center justify-center py-2">
+			<Head>
+				<title>Learn Next Auth</title>
+				<link rel="icon" href="/favicon.ico" />
+			</Head>
 
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="rounded-md bg-gray-100 p-3 font-mono text-lg">
-            pages/index.tsx
-          </code>
-        </p>
+			<main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
+				{session ? (
+					<>
+						<h2 className="text-3xl font-medium">
+							Signed in as {session.user?.email}
+						</h2>
+						<button
+							className="bg-blue-500 hover:bg-blue-600 shadow hover:shadow-lg hover:scale-105 active:scale-95  duration-200 flex space-x-4 items-center px-8 py-4 rounded-full text-white font-semibold text-xl outline-none"
+							onClick={() => signOut()}
+						>
+							Sign out
+						</button>
+					</>
+				) : (
+					<button
+						onClick={() => signIn()}
+						className="bg-blue-500 hover:bg-blue-600 shadow hover:shadow-lg hover:scale-105 active:scale-95  duration-200 flex space-x-4 items-center px-8 py-4 rounded-full text-white font-semibold text-xl outline-none"
+					>
+						<Image
+							src="/google.svg"
+							alt="google icon"
+							objectFit="contain"
+							width={40}
+							height={40}
+						/>
+						<span>Login With Google</span>
+					</button>
+				)}
+			</main>
 
-        <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and its API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
-      </footer>
-    </div>
-  )
+			<footer className="flex h-24 w-full items-center justify-center border-t text-lg space-x-2">
+				<span>Built by</span>
+				<a
+					className="flex items-center justify-center gap-2 font-semibold"
+					href="https://shubhamku044.hashnode.dev/"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Shubham Sharma
+				</a>
+			</footer>
+		</div>
+	)
 }
 
 export default Home
